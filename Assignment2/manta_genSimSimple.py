@@ -6,7 +6,7 @@
 from manta import *
 import os, shutil, math, sys, time
 import numpy as np
-sys.path.append("../tools")
+sys.path.append("/home/a_parida/MantaFlow/manta/tensorflow/tools/")
 import paramhelpers as ph
 
 # Main params  ----------------------------------------------------------------------#
@@ -15,7 +15,7 @@ savedata = True
 saveppm  = False
 simNo    = 1000  # start ID
 showGui  = False
-basePath = '../data/'
+basePath = 'data/'
 npSeedstr   = "-1"
 
 # enable for debugging
@@ -33,7 +33,7 @@ setDebugLevel(1)
 
 # Solver params  ----------------------------------------------------------------------#
 res    = 64
-dim    = 2 
+dim    = 2
 offset = 20
 interval = 1
 
@@ -59,7 +59,7 @@ bWidth=1
 flags.initDomain(boundaryWidth=bWidth)
 flags.fillGrid()
 
-setOpenBound(flags,    bWidth,'yY',FlagOutflow|FlagEmpty) 
+setOpenBound(flags,    bWidth,'yY',FlagOutflow|FlagEmpty)
 
 # inflow sources ----------------------------------------------------------------------#
 if(npSeed>0): np.random.seed(npSeed)
@@ -84,21 +84,21 @@ for nI in range(noiseN):
 	noise[nI].valOffset = -0.01 # some gap
 	noise[nI].timeAnim = 0.3
 	noise[nI].posOffset = vec3(1.5)
-	
+
 	# random offsets
 	coff = vec3(0.4) * (vec3( randoms[nI][0], randoms[nI][1], randoms[nI][2] ) - vec3(0.5))
 	radius_rand = 0.035 + 0.035 * randoms[nI][3]
 	upz = vec3(0.95)+ vec3(0.1) * vec3( randoms[nI][4], randoms[nI][5], randoms[nI][6] )
-	if(dim == 2): 
+	if(dim == 2):
 		coff.z = 0.0
 		upz.z = 1.0
-	sources.append(sm.create(Sphere, center=gs*(cpos+coff), radius=gs.x*radius_rand, scale=upz)) 
+	sources.append(sm.create(Sphere, center=gs*(cpos+coff), radius=gs.x*radius_rand, scale=upz))
 	densityInflow( flags=flags, density=density, noise=noise[nI], shape=sources[nI], scale=1.0, sigma=1.0 )
-	print (nI, "centre", gs*(cpos+coff), "radius", gs.x*radius_rand, "other", upz ) 
+	print (nI, "centre", gs*(cpos+coff), "radius", gs.x*radius_rand, "other", upz )
 
 # init random velocity
 Vrandom = np.random.rand(3)
-v1pos = vec3(0.7 + 0.4 *(Vrandom[0] - 0.5) ) #range(0.5,0.9) 
+v1pos = vec3(0.7 + 0.4 *(Vrandom[0] - 0.5) ) #range(0.5,0.9)
 v2pos = vec3(0.3 + 0.4 *(Vrandom[1] - 0.5) ) #range(0.1,0.5)
 vtheta = Vrandom[2] * math.pi * 0.5
 velInflow = 0.04 * vec3(math.sin(vtheta), math.cos(vtheta), 0)
@@ -141,7 +141,7 @@ if savedata:
 		pathaddition = 'simSimple_%04d/' % folderNo
 
 	simPath = basePath + pathaddition
-	print("Using output dir '%s'" % simPath) 
+	print("Using output dir '%s'" % simPath)
 	simNo = folderNo
 	os.makedirs(simPath)
 
@@ -150,12 +150,12 @@ if savedata:
 while t < steps+offset:
 	curt = t * sm.timestep
 	mantaMsg( "Current time t: " + str(curt) +" \n" )
-	
+
 	advectSemiLagrange(flags=flags, vel=vel, grid=density, order=2, openBounds=True, boundaryWidth=bWidth)
 	advectSemiLagrange(flags=flags, vel=vel, grid=vel,     order=2, openBounds=True, boundaryWidth=bWidth)
 	setWallBcs(flags=flags, vel=vel)
 	addBuoyancy(density=density, vel=vel, gravity=buoy , flags=flags)
-	if 1 and ( t< offset ): 
+	if 1 and ( t< offset ):
 		vorticityConfinement( vel=vel, flags=flags, strength=0.05 )
 	solvePressure(flags=flags, vel=vel, pressure=pressure ,  cgMaxIterFac=10.0, cgAccuracy=0.0001 )
 	setWallBcs(flags=flags, vel=vel)
@@ -166,11 +166,10 @@ while t < steps+offset:
 		tf = (t-offset)/interval
 		#framePath = simPath + 'frame_%04d/' % tf
 		#os.makedirs(framePath)
-		density.save(simPath + 'density_%04d.uni' % (tf))
+		#density.save(simPath + 'density_%04d.uni' % (tf))
 		vel.save(simPath + 'vel_%04d.uni' % (tf))
 		if(saveppm):
 			projectPpmFull( density, simPath + 'density_%04d_%04d.ppm' % (simNo, tf), 0, 1.0 )
 
 	sm.step()
 	t = t+1
-
