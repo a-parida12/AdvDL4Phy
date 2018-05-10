@@ -135,5 +135,5 @@ for variable in tf.trainable_variables():
         variable_parameters *= dim.value
     #print(variable_parameters)
     total_parameters += variable_parameters
-print("Total No. Learnable Parameters:",total_parameters)
+print("Total No. Learnable Parameters Conv & Fully Connected:",total_parameters)
 ############################################################
