@@ -10,7 +10,7 @@ import os
 basePath = 'data/' # path where data is availabe;
 
 trainingEpochs = 10000
-batchSize      = 10
+batchSize      = 100
 inSize         = 64 * 64 * 2
 ######################################################
 # Ex 2.1 – Saving and Loading Training Data
@@ -28,7 +28,7 @@ for uniPath in vel_files:
     arr = np.reshape(arr, [w, h, 3])
     arr=arr[:,:,1:]# discard Z from [Z,Y,X]
     velocities.append( arr )
-    
+
 loadNum = len(velocities)
 if loadNum<200:
 	print("Error - use at least two full sims, generate data by running 'manta ./manta_genSimSimple.py' a few times..."); exit(1)
@@ -66,7 +66,7 @@ def velocityFieldToPng(frameArray):
             outputframeArray[y][x][1] = frameArray[y][x][1]
     return outputframeArray
 
-# the network structure 
+# the network structure
 xIn = tf.placeholder(tf.float32, shape=[None, 64,64, 2])
 
 y = tf.placeholder(tf.float32, shape=[None, 64,64,2])
