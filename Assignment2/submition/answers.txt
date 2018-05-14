@@ -1,0 +1,2 @@
+FirstNetworkArchitecture Parameters 533350
+AutoEncoder Parameters  5102
