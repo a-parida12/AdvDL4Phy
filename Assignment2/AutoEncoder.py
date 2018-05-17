@@ -9,7 +9,7 @@ import scipy.misc
 import os
 basePath = 'data/' # path where data is availabe;
 
-trainingEpochs = 3000
+trainingEpochs = 2500
 batchSize      = 100
 inSize         = 64 * 64 * 2
 ######################################################
