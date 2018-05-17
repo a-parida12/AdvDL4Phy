@@ -9,7 +9,7 @@ import scipy.misc
 import os
 basePath = 'data/' # path where data is availabe;
 
-trainingEpochs = 10000
+trainingEpochs = 3000
 batchSize      = 100
 inSize         = 64 * 64 * 2
 ######################################################
@@ -24,9 +24,8 @@ for uniPath in vel_files:
     header, content = uniio.readUni(uniPath)# returns [Z,Y,X,C] np array
     h = header['dimX']
     w  = header['dimY']
-    arr = content[:, ::-1, :, :]  # reverse order of Y axis
-    arr = np.reshape(arr, [w, h, 3])
-    arr=arr[:,:,1:]# discard Z from [Z,Y,X]
+    arr = content[:, ::-1, :, :-1]  # reverse order of Y axis
+    arr = np.reshape(arr, [w, h, 2])# discard Z from [Z,Y,X]
     velocities.append( arr )
 
 loadNum = len(velocities)
@@ -177,8 +176,10 @@ for epoch in range(trainingEpochs):
 			if not os.path.exists(outDir): os.makedirs(outDir)
 			print("\n Training done. Writing %d images from validation data to directory %s..." % (len(valiData),outDir) )
 			for i in range(len(valiData)):
-				scipy.misc.toimage(velocityFieldToPng( np.reshape(valiData[i], [64, 64,2])) , cmin=0.0, cmax=1.0).save("%s/in_%d.png" % (outDir,i))
-				scipy.misc.toimage(velocityFieldToPng( np.reshape(vout[i]    , [64, 64,2])) , cmin=0.0, cmax=1.0).save("%s/out_%d.png" % (outDir,i))
+				val_in=velocityFieldToPng(valiData[i])
+				val_out=velocityFieldToPng(vout[i])
+				scipy.misc.toimage( np.reshape(val_in, [64, 64, 3]) , cmin=0.0, cmax=1.0).save("%s/in_%d.png" % (outDir,i))
+				scipy.misc.toimage( np.reshape(val_out, [64, 64, 3]) , cmin=0.0, cmax=1.0).save("%s/out_%d.png" % (outDir,i))
 
 print("Done...")
 
