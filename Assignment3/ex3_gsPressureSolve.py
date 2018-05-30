@@ -7,7 +7,7 @@
 from manta import *
 
 # solver params
-res = 32                                                                        # (1)
+res = 128                                                                   # (1)
 gs  = vec3(res,2*res,1)                                                         # (1)
 s          = Solver(name='main', gridSize = gs, dim=2)                          # (1)
 s.timestep = 1.0                                                                # (2)
@@ -48,9 +48,9 @@ for t in range(1000):
 	timings.display()                                                           # for output
 	s.step()                                                                    # (vi)
 
-#	if t == 250:
-#		gui.screenshot( 'shot_%04d.png' % t);
-#	if t == 500:
-#		gui.screenshot( 'shot_%04d.png' % t);
-#	if t == 750:
-#		gui.screenshot( 'shot_%04d.png' % t);
+	if t == 250:
+		gui.screenshot( 'shot_%04d.png' % t);
+	if t == 500:
+		gui.screenshot( 'shot_%04d.png' % t);
+	if t == 750:
+		gui.screenshot( 'shot_%04d.png' % t);
