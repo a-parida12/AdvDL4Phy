@@ -91,9 +91,9 @@ namespace Manta {
 
 		while(res > gsAccuracy)
 		{
-			iterate_p(div, pressure, A0, A1);
-			res = iterate_r(div, pressure, residual, A0, A1);
-			//res = iterate2(div, pressure, residual, A0, A1);
+			//iterate_p(div, pressure, A0, A1);
+			//res = iterate_r(div, pressure, residual, A0, A1);
+			res = iterate2(div, pressure, residual, A0, A1);
 		}
 		UpdateVel(flags, vel, pressure);
 

@@ -1,0 +1,6 @@
+[submodule "Assignment4/Assignment4/Generative-Adversarial-Networks"]
+	path = Assignment4/Assignment4/Generative-Adversarial-Networks
+	url = https://github.com/adeshpande3/Generative-Adversarial-Networks.git
+[submodule "Generative-Adversarial-Networks"]
+	path = Generative-Adversarial-Networks
+	url = https://github.com/adeshpande3/Generative-Adversarial-Networks.git
