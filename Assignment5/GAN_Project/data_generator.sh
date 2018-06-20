@@ -7,3 +7,6 @@ done
 
 # cd ./data
 # mv "simSimple_10$time" testing
+# cd ..
+
+python DataOrganiser.py
